@@ -10,6 +10,14 @@ Class {
 	#package : 'Containers-Treap'
 }
 
+{ #category : 'converting' }
+CTTreap >> asArray [
+	| stream |
+	stream := WriteStream on: (Array new: size).
+	self do: [ :each | stream nextPut: each ].
+	^ stream contents
+]
+
 { #category : 'accessing' }
 CTTreap >> at: aKey [
 	^ self at: aKey ifAbsent: [ KeyNotFound signalFor: aKey ]
@@ -36,9 +44,21 @@ CTTreap >> atRank: anInteger [
 	^ (root nodeAtRank: anInteger) value
 ]
 
+{ #category : 'removing' }
+CTTreap >> clear [
+	root := CTTreapEmptyNode new.
+	size := 0.
+]
+
 { #category : 'accessing' }
 CTTreap >> depth [
 	^ root depth
+	
+]
+
+{ #category : 'enumerating' }
+CTTreap >> do: aBlock [
+	self keysAndValuesDo: [ :k :v | aBlock value: v ]
 	
 ]
 
@@ -76,6 +96,12 @@ CTTreap >> insertNewKey: aKey value: aValue [
 { #category : 'testing' }
 CTTreap >> isEmpty [
 	^ size = 0
+]
+
+{ #category : 'enumerating' }
+CTTreap >> keysAndValuesDo: aBlock [
+	root keysAndValuesDo: aBlock
+	
 ]
 
 { #category : 'removing' }

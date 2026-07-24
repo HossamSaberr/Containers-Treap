@@ -16,6 +16,11 @@ CTTreapEmptyNode >> isEmptyNode [
 	^ true
 ]
 
+{ #category : 'enumerating' }
+CTTreapEmptyNode >> keysAndValuesDo: aBlock [
+	"Do nothing"
+]
+
 { #category : 'accessing' }
 CTTreapEmptyNode >> lookupKey: aKey ifAbsent: aBlock [
 	^ aBlock value

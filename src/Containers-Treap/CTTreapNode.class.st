@@ -38,6 +38,14 @@ CTTreapNode >> key: aKey value: aValue priority: aPriority [
 	subtreeSize := 1.
 ]
 
+{ #category : 'enumerating' }
+CTTreapNode >> keysAndValuesDo: aBlock [
+	leftChild keysAndValuesDo: aBlock.
+	aBlock value: key value: value.
+	rightChild keysAndValuesDo: aBlock.
+	
+]
+
 { #category : 'accessing' }
 CTTreapNode >> leftChild [
 	^ leftChild
@@ -86,6 +94,11 @@ CTTreapNode >> nodeAtRank: anInteger [
 	^ anInteger <= leftSize
 		ifTrue: [ leftChild nodeAtRank: anInteger ]
 		ifFalse: [ rightChild nodeAtRank: (anInteger - leftSize - 1) ]
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> priority [
+	^ priority
 ]
 
 { #category : 'operations' }
