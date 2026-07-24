@@ -11,6 +11,14 @@ Class {
 }
 
 { #category : 'accessing' }
+CTTreap >> at: aKey put: aValue [
+	"If the key updates successfully, we are done. If absent, we build and insert a new node."
+	root updateKey: aKey value: aValue ifAbsent: [ self insertNewKey: aKey value: aValue ].
+	^ aValue
+
+]
+
+{ #category : 'accessing' }
 CTTreap >> depth [
 	^ root depth
 	
@@ -22,6 +30,20 @@ CTTreap >> initialize [
 	size := 0.
 	randomGenerator := Random new.
 	root := CTTreapEmptyNode new.
+]
+
+{ #category : 'removing' }
+CTTreap >> insertNewKey: aKey value: aValue [
+	| newNode splits |
+	newNode := CTTreapNode new 
+		key: aKey 
+		value: aValue 
+		priority: randomGenerator next.
+		
+	splits := root split: aKey.
+	root := (splits first mergeWith: newNode) mergeWith: splits second.
+	size := size + 1.
+
 ]
 
 { #category : 'testing' }
