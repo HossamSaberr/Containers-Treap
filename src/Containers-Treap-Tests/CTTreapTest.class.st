@@ -27,6 +27,20 @@ CTTreapTest >> testAdversarialBounds [
 ]
 
 { #category : 'tests' }
+CTTreapTest >> testAtRank [
+	treap at: 50 put: 'A'.
+	treap at: 20 put: 'B'.
+	treap at: 80 put: 'C'.
+	treap at: 10 put: 'D'.
+	treap at: 30 put: 'E'.
+	
+	"Sorted Keys: 10, 20, 30, 50, 80"
+	self assert: (treap atRank: 1) equals: 'D'. 
+	self assert: (treap atRank: 3) equals: 'E'. 
+	self assert: (treap atRank: 5) equals: 'C'.
+]
+
+{ #category : 'tests' }
 CTTreapTest >> testBSTProperty [
 	| keys |
 	treap at: 50 put: 'A'.
@@ -82,6 +96,63 @@ CTTreapTest >> testHeapProperty [
 	treap at: 45 put: 'F'.
 	
 	self assert: (self verifyHeapInvariant: treap root).
+]
+
+{ #category : 'tests' }
+CTTreapTest >> testRankOutOfBounds [
+	treap at: 10 put: 'A'.
+	treap at: 20 put: 'B'.
+	
+	self should: [ treap atRank: 0 ] raise: SubscriptOutOfBounds.
+	self should: [ treap atRank: 3 ] raise: SubscriptOutOfBounds.
+]
+
+{ #category : 'tests' }
+CTTreapTest >> testRemoval [
+	treap at: 10 put: 'A'.
+	treap at: 20 put: 'B'.
+	
+	treap removeKey: 10.
+	
+	self assert: treap size equals: 1.
+	self should: [ treap at: 10 ] raise: KeyNotFound.
+	self assert: (treap at: 20) equals: 'B'.
+]
+
+{ #category : 'tests' }
+CTTreapTest >> testRemoveNonExistentKey [
+	treap at: 10 put: 'A'.
+	
+	self assert: (treap removeKey: 99 ifAbsent: [ 'Missing' ]) equals: 'Missing'.
+	self assert: treap size equals: 1.
+	self assert: (self verifyHeapInvariant: treap root).
+]
+
+{ #category : 'tests' }
+CTTreapTest >> testStressInterleavedOperations [
+	| random keysToRemove previousKey |
+	random := Random new.
+	keysToRemove := OrderedCollection new.
+	
+	"Insert 1,000 random elements"
+	1 to: 1000 do: [ :i | 
+		| k |
+		k := random nextInteger: 10000.
+		treap at: k put: i.
+		"pick some keys to delete later"
+		(i \\ 2 = 0) ifTrue: [ keysToRemove add: k ] ].
+		
+	"Remove the selected keys"
+	keysToRemove do: [ :k | treap removeKey: k ifAbsent: [] ].
+	
+	"Verify the Max-Heap invariant survived"
+	self assert: (self verifyHeapInvariant: treap root).
+	
+	"Verify the BST invariant (ascending order) survived"
+	previousKey := -1.
+	treap keysAndValuesDo: [ :k :v | 
+		self assert: k > previousKey.
+		previousKey := k ].
 ]
 
 { #category : 'tests' }
