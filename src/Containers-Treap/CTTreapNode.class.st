@@ -24,6 +24,34 @@ CTTreapNode >> isEmptyNode [
 ]
 
 { #category : 'accessing' }
+CTTreapNode >> key [
+	^ key
+]
+
+{ #category : 'initialization' }
+CTTreapNode >> key: aKey value: aValue priority: aPriority [
+	key := aKey.
+	value := aValue.
+	priority := aPriority.
+	leftChild := CTTreapEmptyNode new.
+	rightChild := CTTreapEmptyNode new.
+	subtreeSize := 1.
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> leftChild [
+	^ leftChild
+
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> leftChild: aNode [
+	leftChild := aNode.
+	self updateSubtreeSize.
+
+]
+
+{ #category : 'accessing' }
 CTTreapNode >> lookupKey: aKey ifAbsent: aBlock [
 	key = aKey ifTrue: [ ^ value ].
 	^ key < aKey 
@@ -59,6 +87,19 @@ CTTreapNode >> removeKey: aKey [
 	^ self
 ]
 
+{ #category : 'accessing' }
+CTTreapNode >> rightChild [
+	^ rightChild
+
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> rightChild: aNode [
+	rightChild := aNode.
+	self updateSubtreeSize.
+
+]
+
 { #category : 'operations' }
 CTTreapNode >> split: aKey [
 	| splits |
@@ -71,4 +112,15 @@ CTTreapNode >> split: aKey [
 		self leftChild: splits second.
 		^ { splits first . self }
 	]
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> value [
+	^ value
+	
+]
+
+{ #category : 'accessing' }
+CTTreapNode >> value: aValue [
+	value := aValue
 ]
