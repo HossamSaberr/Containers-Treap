@@ -47,3 +47,8 @@ CTTreapEmptyNode >> split: aKey [
 	^ { self . self }
 
 ]
+
+{ #category : 'operations' }
+CTTreapEmptyNode >> updateKey: aKey value: aValue ifAbsent: aBlock [
+	^ aBlock value
+]

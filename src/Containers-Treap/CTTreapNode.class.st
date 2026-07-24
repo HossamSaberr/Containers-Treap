@@ -114,6 +114,17 @@ CTTreapNode >> split: aKey [
 	]
 ]
 
+{ #category : 'operations' }
+CTTreapNode >> updateKey: aKey value: aValue ifAbsent: aBlock [
+	key = aKey ifTrue: [ 
+		value := aValue. 
+		^ aValue ].
+		
+	^ key < aKey 
+		ifTrue: [ rightChild updateKey: aKey value: aValue ifAbsent: aBlock ] 
+		ifFalse: [ leftChild updateKey: aKey value: aValue ifAbsent: aBlock ]
+]
+
 { #category : 'accessing' }
 CTTreapNode >> value [
 	^ value
