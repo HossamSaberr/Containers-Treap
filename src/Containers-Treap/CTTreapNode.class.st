@@ -50,6 +50,16 @@ CTTreapNode >> mergedFromLeftNode: aLeftTreap [
 ]
 
 { #category : 'operations' }
+CTTreapNode >> removeKey: aKey [
+	key = aKey ifTrue: [ ^ leftChild mergeWith: rightChild ].
+	
+	key < aKey 
+		ifTrue: [ self rightChild: (rightChild removeKey: aKey) ] 
+		ifFalse: [ self leftChild: (leftChild removeKey: aKey) ].
+	^ self
+]
+
+{ #category : 'operations' }
 CTTreapNode >> split: aKey [
 	| splits |
 	key <= aKey ifTrue: [ 

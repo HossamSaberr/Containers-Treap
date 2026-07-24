@@ -72,6 +72,21 @@ CTTreap >> isEmpty [
 	^ size = 0
 ]
 
+{ #category : 'removing' }
+CTTreap >> removeKey: aKey [
+	^ self removeKey: aKey ifAbsent: [ KeyNotFound signalFor: aKey ]
+	
+]
+
+{ #category : 'removing' }
+CTTreap >> removeKey: aKey ifAbsent: aBlock [
+	(self includesKey: aKey) ifFalse: [ ^ aBlock value ].
+	root := root removeKey: aKey.
+	size := size - 1.
+	^ aKey
+	
+]
+
 { #category : 'accessing' }
 CTTreap >> root [
 	^ root

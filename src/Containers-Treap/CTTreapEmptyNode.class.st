@@ -36,6 +36,12 @@ CTTreapEmptyNode >> mergedFromLeftNode: aLeftTreap [
 ]
 
 { #category : 'operations' }
+CTTreapEmptyNode >> removeKey: aKey [
+	^ self
+	
+]
+
+{ #category : 'operations' }
 CTTreapEmptyNode >> split: aKey [
 	"Splitting nothing yields two nothings"
 	^ { self . self }
