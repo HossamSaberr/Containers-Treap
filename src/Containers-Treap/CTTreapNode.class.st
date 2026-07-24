@@ -23,6 +23,14 @@ CTTreapNode >> isEmptyNode [
 	^ false
 ]
 
+{ #category : 'accessing' }
+CTTreapNode >> lookupKey: aKey ifAbsent: aBlock [
+	key = aKey ifTrue: [ ^ value ].
+	^ key < aKey 
+		ifTrue: [ rightChild lookupKey: aKey ifAbsent: aBlock ] 
+		ifFalse: [ leftChild lookupKey: aKey ifAbsent: aBlock ]
+]
+
 { #category : 'operations' }
 CTTreapNode >> mergeWith: aRightTreap [
 	^ aRightTreap mergedFromLeftNode: self

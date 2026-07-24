@@ -11,6 +11,18 @@ Class {
 }
 
 { #category : 'accessing' }
+CTTreap >> at: aKey [
+	^ self at: aKey ifAbsent: [ KeyNotFound signalFor: aKey ]
+	
+]
+
+{ #category : 'accessing' }
+CTTreap >> at: aKey ifAbsent: aBlock [
+	"Use the safe lookup instead of the destructive update"
+	^ root lookupKey: aKey ifAbsent: aBlock
+]
+
+{ #category : 'accessing' }
 CTTreap >> at: aKey put: aValue [
 	"If the key updates successfully, we are done. If absent, we build and insert a new node."
 	root updateKey: aKey value: aValue ifAbsent: [ self insertNewKey: aKey value: aValue ].
@@ -21,6 +33,15 @@ CTTreap >> at: aKey put: aValue [
 { #category : 'accessing' }
 CTTreap >> depth [
 	^ root depth
+	
+]
+
+{ #category : 'testing' }
+CTTreap >> includesKey: aKey [
+	| found |
+	found := true.
+	self at: aKey ifAbsent: [ found := false ].
+	^ found
 	
 ]
 

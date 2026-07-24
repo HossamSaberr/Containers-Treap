@@ -16,6 +16,11 @@ CTTreapEmptyNode >> isEmptyNode [
 	^ true
 ]
 
+{ #category : 'accessing' }
+CTTreapEmptyNode >> lookupKey: aKey ifAbsent: aBlock [
+	^ aBlock value
+]
+
 { #category : 'operations' }
 CTTreapEmptyNode >> mergeWith: aRightTreap [
 	"Merging nothing with a right tree just yields the right tree"
