@@ -35,6 +35,11 @@ CTTreapEmptyNode >> mergedFromLeftNode: aLeftTreap [
 
 ]
 
+{ #category : 'accessing' }
+CTTreapEmptyNode >> nodeAtRank: anInteger [
+	SubscriptOutOfBounds signalFor: anInteger
+]
+
 { #category : 'operations' }
 CTTreapEmptyNode >> removeKey: aKey [
 	^ self
@@ -45,6 +50,12 @@ CTTreapEmptyNode >> removeKey: aKey [
 CTTreapEmptyNode >> split: aKey [
 	"Splitting nothing yields two nothings"
 	^ { self . self }
+
+]
+
+{ #category : 'accessing' }
+CTTreapEmptyNode >> subtreeSize [
+	^ 0
 
 ]
 

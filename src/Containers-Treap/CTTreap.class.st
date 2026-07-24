@@ -31,6 +31,12 @@ CTTreap >> at: aKey put: aValue [
 ]
 
 { #category : 'accessing' }
+CTTreap >> atRank: anInteger [
+	(anInteger < 1 or: [ anInteger > size ]) ifTrue: [ SubscriptOutOfBounds signalFor: anInteger ].
+	^ (root nodeAtRank: anInteger) value
+]
+
+{ #category : 'accessing' }
 CTTreap >> depth [
 	^ root depth
 	

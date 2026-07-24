@@ -77,6 +77,17 @@ CTTreapNode >> mergedFromLeftNode: aLeftTreap [
 
 ]
 
+{ #category : 'enumerating' }
+CTTreapNode >> nodeAtRank: anInteger [
+	| leftSize |
+	leftSize := leftChild subtreeSize.
+	anInteger = (leftSize + 1) ifTrue: [ ^ self ].
+	
+	^ anInteger <= leftSize
+		ifTrue: [ leftChild nodeAtRank: anInteger ]
+		ifFalse: [ rightChild nodeAtRank: (anInteger - leftSize - 1) ]
+]
+
 { #category : 'operations' }
 CTTreapNode >> removeKey: aKey [
 	key = aKey ifTrue: [ ^ leftChild mergeWith: rightChild ].
@@ -114,6 +125,12 @@ CTTreapNode >> split: aKey [
 	]
 ]
 
+{ #category : 'accessing' }
+CTTreapNode >> subtreeSize [
+	^ subtreeSize
+
+]
+
 { #category : 'operations' }
 CTTreapNode >> updateKey: aKey value: aValue ifAbsent: aBlock [
 	key = aKey ifTrue: [ 
@@ -123,6 +140,11 @@ CTTreapNode >> updateKey: aKey value: aValue ifAbsent: aBlock [
 	^ key < aKey 
 		ifTrue: [ rightChild updateKey: aKey value: aValue ifAbsent: aBlock ] 
 		ifFalse: [ leftChild updateKey: aKey value: aValue ifAbsent: aBlock ]
+]
+
+{ #category : 'private' }
+CTTreapNode >> updateSubtreeSize [
+	subtreeSize := 1 + leftChild subtreeSize + rightChild subtreeSize.
 ]
 
 { #category : 'accessing' }
